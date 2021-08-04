@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>home</title>
+        <style>
+            img{
+                margin-left: 40%;
+                margin-top: 10%;
+            }
+            input{
+                width: 500px;
+                height: 40px;
+                border-radius: 100px;
+                margin-left: 33%;
+                margin-top: 2%;
+                border: 1px solid rgb(228, 222, 222);
+                box-shadow: 3px 3px rgb(230, 226, 226);
+                font-size: 15px; 
+            }
+           #two{
+               width: 500px;
+               height: 300px;
+               border: 1px solid rgb(228, 222, 222);
+               box-shadow: 3px 3px rgb(230, 226, 226);
+               margin-left: 33%;
+               overflow: scroll;
+           }
+        </style>
+    </head>
+    <body>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpkBcOHXBEJhou5fMr3eOGM0gjoFb99BSjrA&usqp=CAU"><br>
+        <input id="one" oninput="change()" type="text" placeholder="Search google"/>
+        <div style="display: none;" id="two"></div>
+    </body>
+</html>
+
+<script>
+
+    let main = document.getElementById("two");
+    
+    let temp;
+    function change(){
+        if(temp){
+            return false;
+        }
+
+        temp = setTimeout(() => {
+            loop();
+            temp=undefined;
+        },2000);
+        
+    }
+
+
+    async function input(){
+        let inp = document.getElementById("one").value;
+        if(inp==""){
+            main.style.display = "none"
+        }
+        else {
+            main.style.display = "block"
+        }
+        let res = await fetch(`http://api.serpstack.com/search?access_key=6dd91233fb0b623981ae3795fc7f9450&query=${inp}`)
+        let data = await res.json();
+
+        return(data.organic_results)
+    }
+
+    async function loop(){
+        let temp = await input();
+        main.innerHTML=null;
+        temp.forEach(({title,url},i) => {
+            let a = document.createElement("a");
+            a.append(title);
+            a.setAttribute("href",`${url}`)
+            
+            main.append(a,document.createElement("br"));
+        });
+    }
+
+
+</script>

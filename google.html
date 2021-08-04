@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <title>google</title>
+        <style>
+            #grid{
+                display:grid;
+                grid-template-columns: 40% 40%;
+                margin-left: 30%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="grid">
+            <form>
+                <h1>register</h1>
+                Name:<br><input id="one" type="text"/><br>
+                Email: <br><input id="two" type="text"><br>
+                Username: <br><input id="three" type="text"><br>
+                Password: <br><input id="four" type="password"><br>
+                Mobile: <br><input id="five" type = "number"><br>
+                Description: <br><input id="six" type="text"><br>
+                <input onclick="register(event)" style="margin-top: 2%;" type="submit">
+            </form>
+            <form>
+                <h1>login</h1>
+                Username:<br><input id="seven" type="text"/><br>
+                Password: <br><input id="eight" type="password"><br>
+                <input onclick="login(event)" style="margin-top: 2%;" type="submit">
+            </form>
+        </div>
+    </body>
+</html>
+
+<script>
+
+    function register(e){
+        e.preventDefault();
+
+        let forma = {
+            name : document.getElementById("one").value,
+            email : document.getElementById("two").value,
+            password : document.getElementById("four").value,
+            username : document.getElementById("three").value,
+            mobile : document.getElementById("five").value,
+            description : document.getElementById("six").value
+
+        }
+
+        forma = JSON.stringify(forma);
+        console.log(forma);
+
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register",{
+            method: "POST",
+            body: forma,
+            headers: {
+                "Content-Type" : "application/json",
+            },
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((er)=>{
+            console.log(er);
+        })
+    }
+
+    function login(e){
+        e.preventDefault();
+
+        let format = {
+            username : document.getElementById("seven").value,
+            password : document.getElementById("eight").value,
+        }
+
+        let form = JSON.stringify(format);
+
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login",{
+            method : "POST",
+            body : form,
+
+            headers : {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then((res)=>{
+            return (res.json());
+        })
+        .then((res)=>{
+            next(res.token, format.username)
+        })
+        .catch((err)=>{
+            console.log(err);
+            next(res.token, format.username)
+        })
+    }
+
+    function next(token,user){
+        fetch(`https://masai-api-mocker.herokuapp.com/user/${user}`,{
+            headers : {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        .then((res)=>{
+            return (res.json());
+        })
+        .then((res)=>{
+            if(res.token !=undefined){
+               window.location.href = "home.html";
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+
+    }
+</script>
