@@ -1,0 +1,27 @@
+1.table creation
+create table posts(id int auto_increment primary key,title varchar(50),content char,time time,author varchar(20));
+ create table comments(body varchar(50), post int not null , foreign key (post) references posts(id));
+create table authors(first_name varchar(20),last_name varchar(20));
+create table tags(tag varchar(20));
+
+2.Insertion
+insert into posts (title,content,time,author) value ("The paradise","Its about the fairy world",23.46,"Kiera");
+insert into posts (title,content,time,author) value ("Jungle Book","The child lving in jungle",("2021-08-11 12:23:24"),"Moglie");
+insert into posts (title,content,time,author) value ("2 States","People living in two states",("2021-03-9 18:09:48"),"tatsumi");
+insert into comments (body,post) value ("Good one",1);
+insert into comments (body,post) value ("Keep it up",1);
+insert into comments (body,post) value ("Heart touching" ,6);
+ insert into comments (body,post) value ("that was fantastic",7);
+
+
+3.Update
+ update posts set id=2 where id = 1;
+ update posts set time = ("2017-06-15 09:34:21") where id = 1;
+ update posts set author = "Chethan Bhagat" where id=4;
+
+ 4.select
+ select id,title from posts where author="Chethan Bhagat";
+
+ 5.delete
+  delete from posts where id=5;
+  delete from comments where post=7;
