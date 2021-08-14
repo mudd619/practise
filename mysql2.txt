@@ -1,0 +1,59 @@
+1.creating tables :
+create table author(first_name varchar(20) primary key, last_name varchar(20));
+create table posts(title varchar(20) primary key, content varchar(50), time time, author varchar(20), foreign key (author) references author(first_name) on delete cascade);
+create table comments(body varchar(30) primary key, post varchar(20), foreign key (post) references posts(title) on delete cascade);
+create table tags(tag varchar(20) primary key,author varchar(20), foreign key (author) references author(first_name));
+
+2.Inserting the values into following tables
+insert into author(first_name,last_name) values ("chethan","bhagat"),("Jonathan","swift"),("mudda","sir"),("kaneki","kun"),("asuna","chan");
+insert into posts(title,content,time,author) values ("Jungle book","The man in a jungle",("2020-08-21 23:56:39"),"asuna");
+insert into posts(title,content,time,author) values ("Harry potter","The sorceror",("2013-06-01 21:56:39"),"asuna");
+insert into posts(title,content,time,author) values ("Gulliever's Travel","The dwarf Island",("2017-08-11 21:56:39"),"Jonathan"),("Half Girlfriend","The love story",("2018-01-18 11:22:39"),"chethan"),("2 States","The story between two states",("2019-03-11 21:22:09"),"chethan");
+insert into comments(body,post) values ("best ever with all the adventures in it","Harry potter");
+insert into comments(body,post) values ("best ever distant faces","2 States"),("emotional content","Half Girlfriend"),("heart broken initially","Half Girlfriend"),("funny ,could die laughing","Gulliever's Travel"),("every moment was scary","Harry potter");
+insert into tag(tag,author) values ("#scary","chethan");
+insert into tags(tag,author) values ("#love","chethan"),("#sad","asuna");
+insert into tags(tag,author) values ("#giant","Jonathan"),("#tiny","Jonathan");
+insert into tags(tag,author) values ("#adventures","asuna");
+
+3.updating the documents
+update author set last_name = "cred" where last_name="kun";
+update posts set content = "One mysterious story" where content="The sorceror";
+update comments set body="too good story" where body="emotional content";
+update tags set tag="#marvelous" where tag="#scary";
+
+4.deleting the documents:
+delete from author where last_name="sir";
+delete from posts where title="Jungle book";
+delete from comments where post = "2 States";
+delete from tags where tag="#tiny";
+
+5.find all posts wriiten by an author:
+SELECT posts.* ,author.*
+FROM posts join author
+on posts.author = author.first_name;
+
+6.find all comments wriiten by an author:
+SELECT comments.* ,posts.author
+FROM posts join comments
+on posts.title = comments.post;
+
+7.find all comments for a post
+SELECT comments.* ,posts.author
+FROM posts join comments
+on posts.title = comments.post;
+
+8.find all tags for a post:
+SELECT tags.* ,posts.*
+from tags join posts
+on posts.author = tags.author;
+
+9.find all posts which have a tag
+SELECT posts.* , tags.*
+from posts join tags
+on posts.author = tags.author;
+
+10.find all the tags added by an author
+SELECT tags.* , author.*
+FROM tags join author 
+on tags.author = author.first_name;
