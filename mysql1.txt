@@ -1,27 +1,32 @@
-1.table creation
-create table posts(id int auto_increment primary key,title varchar(50),content char,time time,author varchar(20));
- create table comments(body varchar(50), post int not null , foreign key (post) references posts(id));
-create table authors(first_name varchar(20),last_name varchar(20));
-create table tags(tag varchar(20));
+1.creating tables :
+create table author(first_name varchar(20) primary key, last_name varchar(20));
+create table posts(title varchar(20) primary key, content varchar(50), time time, author varchar(20), foreign key (author) references author(first_name) on delete cascade);
+create table comments(body varchar(30) primary key, post varchar(20), foreign key (post) references posts(title) on delete cascade);
+create table tags(tag varchar(20) primary key,author varchar(20), foreign key (author) references author(first_name));
 
-2.Insertion
-insert into posts (title,content,time,author) value ("The paradise","Its about the fairy world",23.46,"Kiera");
-insert into posts (title,content,time,author) value ("Jungle Book","The child lving in jungle",("2021-08-11 12:23:24"),"Moglie");
-insert into posts (title,content,time,author) value ("2 States","People living in two states",("2021-03-9 18:09:48"),"tatsumi");
-insert into comments (body,post) value ("Good one",1);
-insert into comments (body,post) value ("Keep it up",1);
-insert into comments (body,post) value ("Heart touching" ,6);
- insert into comments (body,post) value ("that was fantastic",7);
+2.Inserting the values into following tables
+insert into author(first_name,last_name) values ("chethan","bhagat"),("Jonathan","swift"),("mudda","sir"),("kaneki","kun"),("asuna","chan");
+insert into posts(title,content,time,author) values ("Jungle book","The man in a jungle",("2020-08-21 23:56:39"),"asuna");
+insert into posts(title,content,time,author) values ("Harry potter","The sorceror",("2013-06-01 21:56:39"),"asuna");
+insert into posts(title,content,time,author) values ("Gulliever's Travel","The dwarf Island",("2017-08-11 21:56:39"),"Jonathan"),("Half Girlfriend","The love story",("2018-01-18 11:22:39"),"chethan"),("2 States","The story between two states",("2019-03-11 21:22:09"),"chethan");
+insert into comments(body,post) values ("best ever with all the adventures in it","Harry potter");
+insert into comments(body,post) values ("best ever distant faces","2 States"),("emotional content","Half Girlfriend"),("heart broken initially","Half Girlfriend"),("funny ,could die laughing","Gulliever's Travel"),("every moment was scary","Harry potter");
+insert into tag(tag,author) values ("#scary","chethan");
+insert into tags(tag,author) values ("#love","chethan"),("#sad","asuna");
+insert into tags(tag,author) values ("#giant","Jonathan"),("#tiny","Jonathan");
+insert into tags(tag,author) values ("#adventures","asuna");
 
+3.updating the documents
+update author set last_name = "cred" where last_name="kun";
+update posts set content = "One mysterious story" where content="The sorceror";
+update comments set body="too good story" where body="emotional content";
+update tags set tag="#marvelous" where tag="#scary";
 
-3.Update
- update posts set id=2 where id = 1;
- update posts set time = ("2017-06-15 09:34:21") where id = 1;
- update posts set author = "Chethan Bhagat" where id=4;
+4.deleting the documents;
+delete from author where last_name="sir";
+delete from posts where title="Jungle book";
+delete from comments where post = "2 States";
+delete from tags where tag="#tiny";
 
- 4.select
- select id,title from posts where author="Chethan Bhagat";
-
- 5.delete
-  delete from posts where id=5;
-  delete from comments where post=7;
+5.select
+select id,title from posts where author="Chethan Bhagat";
